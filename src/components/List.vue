@@ -24,8 +24,11 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" @click.prevent="onViewVideoShow(file)">
-                                        View
+                                    <button type="button" @click.prevent="onViewVideoShow(file, '360')">
+                                        360p
+                                    </button>
+                                    <button type="button" @click.prevent="onViewVideoShow(file, '720')">
+                                        720p
                                     </button>
                                 </div>
                             </td>
@@ -97,7 +100,7 @@ export default {
         },
         sources: [{
           type: 'video/mp4',
-          src: require('../resources/1.mp4'), // 视频地址-改变它的值播放的视频会改变
+          src: '', // 视频地址-改变它的值播放的视频会改变
           // type: 'application/x-mpegURL'
         }],
         notSupportedMessage: '此视频暂无法播放，请稍后再试' // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
@@ -114,12 +117,13 @@ export default {
   },
 
   methods: {
-    onViewVideoShow(file) {
+    onViewVideoShow(file, rate) {
       this.viewVideoShow = true
       this.curfile = file
       if (this.curfile) {
         this.curpath = './' + this.curfile.name
       }
+      this.playerOptions.sources[0].src = 'http://localhost:8080/view/' + this.curfile.id + '/' + rate
     },
   }
 }
